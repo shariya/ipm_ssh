@@ -1,49 +1,44 @@
-<%@page import="java.sql.ResultSet"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1" import="ipm_ssh.*"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page import="java.sql.ResultSet"  %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.DriverManager" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.Statement" %>
+<!DOCTYPE html>
 <html>
-<link href="vz-events.css" rel="stylesheet">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<style>
-.login-form .footer .button {
-	float: right;
-	padding: 11px 25px;
-	font-family: 'Bree Serif', serif;
-	font-weight: 300;
-	font-size: 18px;
-	color: #fff;
-	text-shadow: 0px 1px 0 rgba(0, 0, 0, 0.25);
-	background: #56c2e1;
-	border: 1px solid #46b3d3;
-	border-radius: 5px;
-	cursor: pointer;
-	box-shadow: inset 0 0 2px rgba(256, 256, 256, 0.75);
-	-moz-box-shadow: inset 0 0 2px rgba(256, 256, 256, 0.75);
-	-webkit-box-shadow: inset 0 0 2px rgba(256, 256, 256, 0.75);
-}
-
-.login-form .footer .button:hover {
-	background: #3f9db8;
-	border: 1px solid rgba(256, 256, 256, 0.75);
-	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
-	-moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
-	-webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-.login-form .footer .button:focus {
-	position: relative;
-	bottom: -1px;
-	background: #56c2e1;
-	box-shadow: inset 0 1px 6px rgba(256, 256, 256, 0.75);
-	-moz-box-shadow: inset 0 1px 6px rgba(256, 256, 256, 0.75);
-	-webkit-box-shadow: inset 0 1px 6px rgba(256, 256, 256, 0.75);
-}
-</style>
-
-<script src="../js/prototype.js"></script>
-    <script src="../js/calendarview.js"></script>
+  <head>
+    <meta charset="UTF-8">
+    <title>IPM SSH Home</title>
+    <link rel="stylesheet" href="calendarview.css">
+    <style>
+      body {
+        font-family: Trebuchet MS;
+      }
+      div.calendar {
+        max-width: 240px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      div.calendar table {
+        width: 100%;
+      }
+      div.dateField {
+        width: 140px;
+        padding: 6px;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        color: #555;
+        background-color: white;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+      div#popupDateField:hover {
+        background-color: #cde;
+        cursor: pointer;
+      }
+    </style>
+    <script src="prototype.js"></script>
+    <script src="calendarview.js"></script>
     <script>
       function setupCalendars() {
         // Embedded Calendar
@@ -54,13 +49,20 @@
           }
         )
       }
+      
+      function doSubmit(){
+    	  var date = document.getElementById('embeddedDateField').innerHTML;
+    	  alert(date);
+    	  window.location.replace("events.jsp?date="+date);
+      }
+      
 
       Event.observe(window, 'load', function() { setupCalendars() })
     </script>
+  </head>
+  <body>
 
-</head>
-<body>
-	<div class="titlebar">
+<div class="titlebar">
 		<div class="logo">
 			<img src="verizon-logo-red.png" height=100px />
 		</div>
@@ -68,50 +70,70 @@
 			<input id="search" type="text" placeholder=Search... />
 			<div class="addevent">
 				<%
-ResultSet rs = null;
-if(session.getAttribute("user")==null)
-{
-	response.sendRedirect("index.jsp");
-}
-if(session.getAttribute("admin").equals("true"))
-{
-	out.println("<br/><a style=\"margin-top: 200px\"href=\"addEvent.jsp\">Add event page</a>");
-}
+
 %>
 			</div>
 		</div>
+</div>
 
-		<div style="float: left; width: 50%">
-			<div
-				style="height: 400px; background-color: #efefef; padding: 10px; -webkit-border-radius: 12px; -moz-border-radius: 12px; margin-right: 10px">
-				<h3
-					style="text-align: center; background-color: white; -webkit-border-radius: 10px; -moz-border-radius: 10px; margin-top: 0px; margin-bottom: 20px; padding: 8px">
-					Schedule Calendar</h3>
-				<div id="embeddedExample" style="">
-					<div id="embeddedCalendar"
-						style="margin-left: auto; margin-right: auto"></div>
-					<br />
-					<div id="embeddedDateField" class="dateField">Select Date</div>
-					<br />
-				</div>
-			</div>
+    <div style="float: left; width: 30%">
+      <div style="height: 300px; background-color: #efefef; padding: 10px; -webkit-border-radius: 12px; -moz-border-radius: 12px; margin-right: 10px">
+        <h3 style="text-align: center; background-color: white; -webkit-border-radius: 10px; -moz-border-radius: 10px; margin-top: 0px; margin-bottom: 20px; padding: 8px">
+          Schedule Calendar
+        </h3>
+        <div id="embeddedExample" style="">
+          <div id="embeddedCalendar" style="margin-left: auto; margin-right: auto">
+          </div>
+          <br />
+          <div id="embeddedDateField" class="dateField">
+            Select Date
+          </div>        
+          <div id="embeddedField" style="float: middle; width: 100%">
+            <input type="submit" name="submit" value="Submit" class="button" onClick="doSubmit()"/>
+            </div>
+          <br />
 		</div>
-
-	</div>
-	<div class="cardcontainer">
-		<form name="form" method="post" action="loading2.jsp">
-			<!--  jsp:useBean id="obj" class="com.vz.Event" -->
-			<jsp:setProperty property="*" name="obj" />
-
+      </div>
+    </div>
+    
+    <div class="cardcontainer" style="float: right; width: 50%">
 			<%
-//out.println(session.getAttribute("user"));
-//rs = eventList.GetEvents();
-//while (rs.next())
-//{
-//out.println("<div class=\"card\"><div class=\"image\"><img src=\"http://i.imgur.com/WerlaFe.jpg\"><span class=\"title\">"+rs.getString("ename")+"</span> </div>  <div class=\"content\">  	<p class=\"category\">"+rs.getString("category")+"</p>    <p class=\"count\" style=\"float:left;\">"+rs.getInt("count")+"/"+rs.getInt("max")+"</p>	<p class=\"host\"style=\"float:right;\">"+rs.getString("hostname")+"</p>  </div>  <div class=\"action\">    <input class=\"button\" type=\"submit\" value=\"Register for this event\" name=\""+rs.getString("eid")+"\"></a>  </div></div>");
-//}
-%>
+
+	int i=0;
+	String date = request.getParameter("date");
+	System.out.println(date);
+	if(date!=null){
+    ResultSet rs = null;
+	String url = "jdbc:postgresql://localhost:5432/postgres";
+	String user1 = "postgres";
+	String password = "admin";
+	Connection con = null;
+	Class.forName("org.postgresql.Driver");
+	con = DriverManager.getConnection(url, user1, password);
+	PreparedStatement ps = con.prepareStatement("select userid,shiftid from usershiftmap where date =\""+date+"\"");
+	rs = ps.executeQuery();
+	String usrArray[] = new String[3];
+			
+	while (rs.next())
+	{
+		i++;
+		int shiftid=Integer.parseInt(rs.getString(2));
+		switch(shiftid){
+			case 1:
+				usrArray[0]=usrArray[0]+rs.getString(1)+"\n";
+			case 2:
+				usrArray[1]=usrArray[1]+rs.getString(1)+"\n";
+			case 3:
+				usrArray[2]=usrArray[2]+rs.getString(1)+"\n";
+		}
+	}
+	
+	if(i>0){
+		out.println("<div class=\"card\"><table border=\"1\" style=\"width:100%\"> <tr><td>Shift A</td> <td>Shift B</td> <td>Shift C</td></tr> <tr> <td>"+usrArray[0]+"</td> <td>"+usrArray[1]+"</td>		    <td>"+usrArray[2]+"</td>	  </tr>	</table></div>");
+	}
+	}
+	%>
 		</form>
 	</div>
-</body>
-</html>
+    </body>
+</html> 
