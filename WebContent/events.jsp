@@ -41,6 +41,7 @@
 	-webkit-box-shadow: inset 0 1px 6px rgba(256, 256, 256, 0.75);
 }
 </style>
+
 <script src="../js/prototype.js"></script>
     <script src="../js/calendarview.js"></script>
     <script>
