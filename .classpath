@@ -14,5 +14,12 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Administrator/Downloads/apache-tomcat-6.0.44-windows-x64/apache-tomcat-6.0.44/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_60/lib/ant-javafx.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_60/lib/dt.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_60/lib/javafx-mx.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_60/lib/jconsole.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_60/lib/packager.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_60/lib/sa-jdi.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_60/lib/tools.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
