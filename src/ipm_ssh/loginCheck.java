@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+
+import org.apache.catalina.connector.Response;
+
 import ipm_ssh.*;
 
 public class loginCheck {
@@ -31,6 +34,7 @@ public class loginCheck {
         if(rs.next())
         {
         	//System.out.println("test1");
+        	
         	   if (u.getUser().equals("admin"))
         		   count=2;
         	   else
