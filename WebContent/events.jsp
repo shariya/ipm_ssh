@@ -88,6 +88,12 @@
           <div id="embeddedDateField" class="dateField">
             Select Date
           </div>        
+           <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          
           <div id="embeddedField" style="float: middle; width: 100%">
             <input type="submit" name="submit" value="Submit" class="button" onClick="doSubmit()"/>
             </div>
@@ -133,7 +139,6 @@
 	}
 	}
 	%>
-		</form>
-	</div>
+		</div>
     </body>
 </html> 
