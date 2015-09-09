@@ -100,7 +100,7 @@ table.hovertable td {
                 <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
               <li ><a href="events.jsp">Home</a></li>
-              <li><a href="#">Generate Schedule</a></li>
+              <li><a href="generateShift.jsp">Generate Schedule</a></li>
               <li class="active"><a href="swap1.jsp">Swap shifts</a></li>
              
             </ul>
