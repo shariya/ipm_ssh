@@ -1,18 +1,15 @@
-<%@ page import="java.sql.ResultSet"  %>
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.DriverManager" %>
-<%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.Statement" %>
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-  <head>
-  <link rel="icon" href="favicon.ico">
+<head>
+<link rel="icon" href="favicon.ico">
   <link href="bootstrap.min.css" rel="stylesheet">
     <link href="vzbootstrap.min.css" rel="stylesheet">
     <link href="vz-global-header.min.css" rel="stylesheet">
     <link href="vz-search.min.css" rel="stylesheet">
     <link href="vz-stocks.min.css" rel="stylesheet">
-    <meta charset="UTF-8">
+    
     <title>IPM SSH Home</title>
     <link rel="stylesheet" href="calendarview.css">
     <style>
@@ -83,37 +80,10 @@ table.hovertable td {
     </style>
     <script src="prototype.js"></script>
     <script src="calendarview.js"></script>
-    <script>
-      function setupCalendars() {
-        // Embedded Calendar
-        Calendar.setup(
-          {
-            dateField: 'embeddedDateField',
-            parentElement: 'embeddedCalendar'
-          }
-        )
-      }
-      
-      function doSubmit(){
-    	  var date = document.getElementById('embeddedDateField').innerHTML;
-    	  alert(date);
-    	  window.location.replace("events.jsp?date="+date);
-      }
-      
 
-      Event.observe(window, 'load', function() { setupCalendars() })
-    </script>
-  </head>
-  <body>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="../scripts/html5shiv.min.js"></script>
-      <script src="../scripts/respond.min.js"></script>
-    <![endif]-->
-      
-    <!--Global Navigation-->
-    <header class="vz-global-header">
+</head>
+<body>
+<header class="vz-global-header">
         <nav class="navbar navbar-default" role="navigation">
         
           <div class="container">
@@ -129,9 +99,9 @@ table.hovertable td {
                 <div class="row">
                 <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="events.jsp">Home</a></li>
+              <li ><a href="events.jsp">Home</a></li>
               <li><a href="#">Generate Schedule</a></li>
-              <li><a href="swap1.jsp">Swap shifts</a></li>
+              <li class="active"><a href="swap1.jsp">Swap shifts</a></li>
              
             </ul>
           </div><!--/.nav-collapse -->
@@ -143,80 +113,26 @@ table.hovertable td {
 		</div>
 		</nav>
 		</header>
+<form name="f1" class="swap-form"  method="post" action="swap.jsp">
 	
-      <!-- Primary Navigation section -->
-      <div id="primary-nav">
-        
-           	
-
-    <div style="float: middle; width: 30%">
-      <div style="height: 300px; background-color: #efefef; padding: 10px; -webkit-border-radius: 12px; -moz-border-radius: 12px; margin-right: 10px">
-        <h3 style="text-align: center; background-color: white; -webkit-border-radius: 10px; -moz-border-radius: 10px; margin-top: 0px; margin-bottom: 20px; padding: 8px">
-          Schedule Calendar
-        </h3>
-        <div id="embeddedExample" style="">
-          <div id="embeddedCalendar" style="margin-left: auto; margin-right: auto">
-          </div>
-          <br />
-          <div id="embeddedDateField" class="dateField">
-            Select Date
-          </div>        
-          <div id="embeddedField" style="float: middle; width: 100%">
-            <input type="submit" name="submit" value="Submit" class="btn btn-default btn-large" onClick="doSubmit()"/>
-            </div>
-          <br />
+		<div class="header">
+		<h1>Swap request</h1>
+		<span>Enter the required details to swap</span>
 		</div>
-      </div>
-    </div>
-     </div>
-         
-      
-
-			<%
-
-	int i=0;
-	String date = request.getParameter("date");
-	System.out.println(date);
-	if(date!=null){
-    ResultSet rs = null;
-	String url = "jdbc:postgresql://localhost:5432/postgres";
-	String user1 = "postgres";
-	String password = "admin";
-	Connection con = null;
-	Class.forName("org.postgresql.Driver");
-	con = DriverManager.getConnection(url, user1, password);
-	PreparedStatement ps = con.prepareStatement("select userid,shiftid from usershiftmap where date =\'"+date+"\'");
-	rs = ps.executeQuery();
-	String shiftA = "";
-	String shiftB = "";
-	String shiftC = "";
 	
-	while (rs.next())
-	{
-		i++;
-		int shiftid=Integer.parseInt(rs.getString(2));
-		//System.out.println(shiftid);
-		//System.out.println(rs.getString(1));
-		switch(shiftid){
+		<div class="content">
+		Date<input name="date" type="text" class="input date">
+		User ID<input name="userid" type="text" class="input userid">
+		Shift ID<input name="shiftid" type="text" class="input shiftid">
+				
+		</div>
+
+		<div class="footer">
+		<input type="submit" name="submit" value="Submit" class="button" />
 		
-			case 1:
-				shiftA=shiftA+rs.getString(1)+"<br><br>";
-				break;
-			case 2:
-				shiftB=shiftB+rs.getString(1)+"<br><br>";
-				break;
-			case 3:
-				shiftC=shiftC+rs.getString(1)+"<br><br>";
-				break;
-		}
-	}
+		</div>
 	
-	if(i>0){
-		out.println("<br /> <br /><div class=\"card\"><table class=\"table table-hover table-striped table-rwd\"><tr><td>Shift A</td> <td>Shift B</td> <td>Shift C</td></tr><tr> <td>"+shiftA+"</td> <td>"+shiftB+"</td>		    <td>"+shiftC+"</td>	  </tr></table></div>");
-	}
-	}
-	%>
-		
+	</form>
 	<!-- Global Footer -->
 	<br>
 	<br>
@@ -236,5 +152,5 @@ table.hovertable td {
   <script src="../scripts/jquery.min.js"></script>
   <script src="../scripts/bootstrap.min.js"></script>
   <script src="../scripts/vzbootstrap.min.js"></script>
-    </body>
-</html> 
+</body>
+</html>
